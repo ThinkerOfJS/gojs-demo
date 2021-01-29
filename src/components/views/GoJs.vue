@@ -2,10 +2,13 @@
     <div id="GoJs">
         <div id="myDiagramDiv" style="width:100%;height: 700px;"></div>
         <div id="myOverviewDiv"></div>
-        <div class="p-footer">
-            <el-input placeholder="请输入" style="width: 200px;margin-right: 20px;" v-model="name"></el-input>
-            <el-button type="primary" @click="searchDiagram">搜索</el-button>
+        <div style="margin: 0 auto;position: absolute;left: 50%;transform: translateX(-50%)">
+            <div class="p-footer">
+                <el-input placeholder="请输入" style="width: 200px;margin-right: 20px;" v-model="name"></el-input>
+                <el-button type="primary" @click="searchDiagram">搜索</el-button>
+            </div>
         </div>
+
     </div>
 </template>
 
@@ -17,11 +20,13 @@ export default {
     data() {
         return {
             name: '',
-            myDiagram: null
+            myDiagram: null,
+            myDiagram4: null,
+            textStyle4: {font: "9pt  Segoe UI,sans-serif", stroke: "white"}
         }
     },
     watch: {
-        name(newVal) {
+        name() {
             this.searchDiagram();
         }
     },
@@ -30,44 +35,10 @@ export default {
     },
     methods: {
         init() {
-            this.initMyDiaGram();
             // this.demo1();
             // this.demo2();
+            this.initMyDiaGramDemo3();
             this.demo3();
-        },
-        initMyDiaGram() {
-            let $ = go.GraphObject.make;  // for conciseness in defining templates
-            this.myDiagram = $(go.Diagram, "myDiagramDiv",  // the DIV HTML element
-                {
-                    "undoManager.isEnabled": true,
-                    // Put the diagram contents at the top center of the viewport
-                    initialDocumentSpot: go.Spot.Top,
-                    initialViewportSpot: go.Spot.Top,
-                    // OR: Scroll to show a particular node, once the layout has determined where that node is
-                    "InitialLayoutCompleted": e => {
-                        let node = e.diagram.findNodeForKey(28);
-                        if (node !== null) e.diagram.commandHandler.scrollToPart(node);
-                    },
-                    layout:
-                        $(go.TreeLayout,  // use a TreeLayout to position all of the nodes
-                            {
-                                isOngoing: false,  // don't relayout when expanding/collapsing panels
-                                treeStyle: go.TreeLayout.StyleLastParents,
-                                // properties for most of the tree:
-                                angle: 90,
-                                layerSpacing: 80,
-                                // properties for the "last parents":
-                                alternateAngle: 0,
-                                alternateAlignment: go.TreeLayout.AlignmentStart,
-                                alternateNodeIndent: 15,
-                                alternateNodeIndentPastParent: 1,
-                                alternateNodeSpacing: 15,
-                                alternateLayerSpacing: 40,
-                                alternateLayerSpacingParentOverlap: 1,
-                                alternatePortSpot: new go.Spot(0.001, 1, 20, 0),
-                                alternateChildPortSpot: go.Spot.Left
-                            })
-                });
         },
         demo1() {
             let $ = go.GraphObject.make;
@@ -137,6 +108,40 @@ export default {
 
             ];
             myDiagram.model = myModel;
+        },
+        initMyDiaGramDemo3() {
+            let $ = go.GraphObject.make;  // for conciseness in defining templates
+            this.myDiagram = $(go.Diagram, "myDiagramDiv",  // the DIV HTML element
+                {
+                    "undoManager.isEnabled": true,
+                    // Put the diagram contents at the top center of the viewport
+                    initialDocumentSpot: go.Spot.Top,
+                    initialViewportSpot: go.Spot.Top,
+                    // OR: Scroll to show a particular node, once the layout has determined where that node is
+                    "InitialLayoutCompleted": e => {
+                        let node = e.diagram.findNodeForKey(28);
+                        if (node !== null) e.diagram.commandHandler.scrollToPart(node);
+                    },
+                    layout:
+                        $(go.TreeLayout,  // use a TreeLayout to position all of the nodes
+                            {
+                                isOngoing: false,  // don't relayout when expanding/collapsing panels
+                                treeStyle: go.TreeLayout.StyleLastParents,
+                                // properties for most of the tree:
+                                angle: 90,
+                                layerSpacing: 80,
+                                // properties for the "last parents":
+                                alternateAngle: 0,
+                                alternateAlignment: go.TreeLayout.AlignmentStart,
+                                alternateNodeIndent: 15,
+                                alternateNodeIndentPastParent: 1,
+                                alternateNodeSpacing: 15,
+                                alternateLayerSpacing: 40,
+                                alternateLayerSpacingParentOverlap: 1,
+                                alternatePortSpot: new go.Spot(0.001, 1, 20, 0),
+                                alternateChildPortSpot: go.Spot.Left
+                            })
+                });
         },
         demo3() {
             let $ = go.GraphObject.make;  // for conciseness in defining templates
